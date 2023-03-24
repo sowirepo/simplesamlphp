@@ -807,6 +807,13 @@ class SAML2
             'SingleSignOnService' => $sso,
             'SingleLogoutService' => $slo,
             'NameIDFormat' => $config->getOptionalArrayizeString('NameIDFormat', [C::NAMEID_TRANSIENT]),
+
+            // metadata signing
+            'metadata.sign.enable' => $config->getOptionalBoolean('metadata.sign.enable', false),
+            'metadata.sign.privatekey' => $config->getOptionalString('metadata.sign.privatekey', ''),
+            'metadata.sign.privatekey_pass' => $config->getOptionalString('metadata.sign.privatekey_pass', null),
+            'metadata.sign.certificate' => $config->getOptionalString('metadata.sign.certificate', ''),
+            'metadata.sign.algorithm' => $config->getOptionalString('metadata.sign.algorithm', null),
         ];
 
         $cryptoUtils = new Utils\Crypto();
