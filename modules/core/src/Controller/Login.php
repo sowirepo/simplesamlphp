@@ -18,10 +18,12 @@ use SimpleSAML\XHTML\Template;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 use function array_key_exists;
 use function substr;
 use function time;
+use function trim;
 
 /**
  * Controller class for the core module.
@@ -101,9 +103,8 @@ class Login
      * username/password authentication.
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @return \SimpleSAML\XHTML\Template
      */
-    public function loginuserpass(Request $request): Template
+    public function loginuserpass(Request $request): Response
     {
         // Retrieve the authentication state
         if (!$request->query->has('AuthState')) {
@@ -131,9 +132,8 @@ class Login
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \SimpleSAML\Module\core\Auth\UserPassBase|\SimpleSAML\Module\core\Auth\UserPassOrgBase $source
      * @param array $state
-     * @return \SimpleSAML\XHTML\Template
      */
-    private function handleLogin(Request $request, $source, array $state): Template
+    private function handleLogin(Request $request, $source, array $state): Response
     {
         Assert::isInstanceOfAny($source, [UserPassBase::class, UserPassOrgBase::class]);
         $authStateId = $request->query->get('AuthState');
@@ -316,9 +316,8 @@ class Login
      * username/password/organization authentication.
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @return \SimpleSAML\XHTML\Template
      */
-    public function loginuserpassorg(Request $request): Template
+    public function loginuserpassorg(Request $request): Response
     {
         // Retrieve the authentication state
         if (!$request->query->has('AuthState')) {
@@ -380,7 +379,7 @@ class Login
         $username = '';
 
         if ($request->request->has('username')) {
-            $username = $request->request->get('username');
+            $username = trim($request->request->get('username'));
         } elseif (
             $source->getRememberUsernameEnabled()
             && $request->cookies->has($source->getAuthId() . '-username')

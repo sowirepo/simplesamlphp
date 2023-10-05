@@ -71,10 +71,14 @@ class Proxy
     public function invalidSession(Request $request): Response
     {
         // retrieve the authentication state
-        if (!$request->query->has('AuthState')) {
+        $stateId = $request->query->get('AuthState'); // GET
+        if ($stateId === null && $request->request->has('AuthState')) {
+            $stateId = $request->request->get('AuthState'); // POST
+        }
+
+        if (!is_string($stateId)) {
             throw new Error\BadRequest('Missing mandatory parameter: AuthState');
         }
-        $stateId = $request->query->get('AuthState');
 
         try {
             // try to get the state
@@ -102,10 +106,10 @@ class Proxy
 
         if ($request->request->has('continue')) {
             /** @var \SimpleSAML\Module\saml\Auth\Source\SP $as */
-            $as = Auth\Source::getById($state['saml:sp:AuthId'], SP::class);
+            $as = new \SimpleSAML\Auth\Simple($state['saml:sp:AuthId']);
 
             // log the user out before being able to login again
-            return new RunnableResponse([$as, 'reauthLogout'], [$state]);
+            return new RunnableResponse([$as, 'login'], [$state]);
         }
 
         $template = new Template($this->config, 'saml:proxy/invalid_session.twig');

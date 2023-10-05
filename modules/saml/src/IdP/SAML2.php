@@ -13,6 +13,7 @@ use SAML2\Binding;
 use SAML2\Constants;
 use SAML2\DOMDocumentFactory;
 use SAML2\EncryptedAssertion;
+use SAML2\Exception\Protocol\UnsupportedBindingException;
 use SAML2\HTTPRedirect;
 use SAML2\LogoutRequest;
 use SAML2\LogoutResponse;
@@ -382,7 +383,11 @@ class SAML2
                 'SAML2.0 - IdP.SSOService: IdP initiated authentication: ' . var_export($spEntityId, true)
             );
         } else {
-            $binding = Binding::getCurrentBinding();
+            try {
+                $binding = Binding::getCurrentBinding();
+            } catch (UnsupportedBindingException $e) {
+                throw new Error\Error('SSOPARAMS', $e, 400);
+            }
             $request = $binding->receive();
 
             if (!($request instanceof AuthnRequest)) {
@@ -713,7 +718,7 @@ class SAML2
             if ($relayState !== null) {
                 $params['RelayState'] = $relayState;
             }
-            return Module::getModuleURL('core/idp/logout-iframe-post.php', $params);
+            return Module::getModuleURL('core/logout-iframe-post', $params);
         }
 
         $lr = self::buildLogoutRequest($idpMetadata, $spMetadata, $association, $relayState);
@@ -757,6 +762,7 @@ class SAML2
      */
     public static function getHostedMetadata(string $entityid, MetaDataStorageHandler $handler = null): array
     {
+        $globalConfig = Configuration::getInstance();
         if ($handler === null) {
             $handler = MetaDataStorageHandler::getMetadataHandler();
         }
@@ -809,6 +815,24 @@ class SAML2
             'NameIDFormat' => $config->getOptionalArrayizeString('NameIDFormat', [Constants::NAMEID_TRANSIENT]),
         ];
 
+        // metadata signing
+        if ($config->hasValue('metadata.sign.enable')) {
+            $metadata += ['metadata.sign.enable' => $config->getBoolean('metadata.sign.enable')];
+
+            if ($config->hasValue('metadata.sign.privatekey')) {
+                $metadata += ['metadata.sign.privatekey' => $config->getString('metadata.sign.privatekey')];
+            }
+            if ($config->hasValue('metadata.sign.privatekey_pass')) {
+                $metadata += ['metadata.sign.privatekey_pass' => $config->getString('metadata.sign.privatekey_pass')];
+            }
+            if ($config->hasValue('metadata.sign.certificate')) {
+                $metadata += ['metadata.sign.certificate' => $config->getString('metadata.sign.certificate')];
+            }
+            if ($config->hasValue('metadata.sign.algorithm')) {
+                $metadata += ['metadata.sign.algorithm' => $config->getString('metadata.sign.algorithm')];
+            }
+        }
+
         $cryptoUtils = new Utils\Crypto();
         $httpUtils = new Utils\HTTP();
 
@@ -858,7 +882,7 @@ class SAML2
             $metadata['ArtifactResolutionService'][] = [
                 'index' => 0,
                 'Binding' => Constants::BINDING_SOAP,
-                'Location' => $httpUtils->getBaseURL() . 'module.php/saml/idp/artifactResolutionService'
+                'Location' => Module::getModuleURL('saml/idp/artifactResolutionService'),
             ];
         }
 
@@ -869,7 +893,7 @@ class SAML2
                 [
                     'hoksso:ProtocolBinding' => Constants::BINDING_HTTP_REDIRECT,
                     'Binding' => Constants::BINDING_HOK_SSO,
-                    'Location' => $httpUtils->getBaseURL() . 'module.php/saml/idp/singleSignOnService',
+                    'Location' => Module::getModuleURL('saml/idp/singleSignOnService'),
                 ]
             );
         }
@@ -879,7 +903,7 @@ class SAML2
             $metadata['SingleSignOnService'][] = [
                 'index' => 0,
                 'Binding' => Constants::BINDING_SOAP,
-                'Location' => $httpUtils->getBaseURL() . 'module.php/saml/idp/singleSignOnService',
+                'Location' => Module::getModuleURL('saml/idp/singleSignOnService'),
             ];
         }
 
@@ -946,7 +970,6 @@ class SAML2
             }
         }
 
-        $globalConfig = Configuration::getInstance();
         $email = $globalConfig->getOptionalString('technicalcontact_email', 'na@example.org');
         if (!empty($email) && $email !== 'na@example.org') {
             $contact = [

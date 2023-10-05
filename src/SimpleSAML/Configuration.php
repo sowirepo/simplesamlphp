@@ -39,7 +39,7 @@ class Configuration implements Utils\ClearableState
     /**
      * The release version of this package
      */
-    public const VERSION = '2.0.3';
+    public const VERSION = '2.0.6';
 
     /**
      * A default value which means that the given option is required.
@@ -47,6 +47,13 @@ class Configuration implements Utils\ClearableState
      * @var string
      */
     public const REQUIRED_OPTION = '___REQUIRED_OPTION___';
+
+    /**
+     * The default security-headers to be sent on responses.
+     */
+    public const DEFAULT_SECURITY_HEADERS = [
+        'X-Frame-Options' => 'SAMEORIGIN',
+    ];
 
     /**
      * Associative array with mappings from instance-names to configuration objects.

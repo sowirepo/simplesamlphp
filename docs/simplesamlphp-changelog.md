@@ -5,9 +5,54 @@
 This document lists the changes between versions of SimpleSAMLphp.
 See the upgrade notes for specific information about upgrading.
 
-## Version 2.0.4
+## Version 2.0.7
 
 Released TBD
+
+* Fixed a missing Accept-header for metadata queries (#1865)
+
+## Version 2.0.6
+
+Released 2023-09-07
+
+* Fixed a legacy endpoint causing to break iframe-logout (#1846)
+* Fixed an incorrect return-type in RunnableResponse
+* Fix for admin.protectmetadata=true - it would show a blank page
+* Fix default for entity attributes NameFormat in XML metadata to be 'URI'.
+* Fix error message when invoking SSO endpoint without the required parameters.
+* Security header regression
+* Fixed a regression that made it impossible to configure metadata-signing on individual hosted IdP's (#1792)
+
+## Version 2.0.5
+
+Released 2023-07-31
+
+* Fixed link pointing to legacy endpoint (#1833)
+* Updated German translations (#1814)
+* Do not drop UIInfo from SSP array style metadata (#1808)
+* Fixed incorrect return types
+* Added removeEntry-method to MetadataStorageHandlerPdo (#1823)
+* Fixed SLO with signed response (#1812)
+* Fixed broken MetaDataStorageHandlerSerialize
+* Usernames are now trimmed (#1829)
+* Never expose the cron-API if secret is not properly configured (#1831)
+* Fixed a bug where IdP-initiated SLO using the HTTP-POST binding wasn't properly dealt with
+
+`admin`
+
+* Updated French translations (#1824)
+
+`cron`
+
+* Log a warning if secret is not properly configured (#1831)
+
+`metarefresh`
+
+* Added support for PDO storage (v0.11.0)
+
+## Version 2.0.4
+
+Released 2023-05-12
 
 * The source that was selected by the SourceSelector is now available in the state.
 * The zone that was selected by the SourceIPSelector is now available in the state.
@@ -17,6 +62,8 @@ Released TBD
 * Fixed a bug in MDQ metadata expiration
 * Resolved a possible object injection vulnerability in MDQ metadata cache
 * Restored the possibility to use HTTP-Artifact binding on AuthnRequests
+* Removed unused private method MetaDataStorageSource::getDynamicHostedUrl (leftover from entityid generation)
+* Bumped simplesamlphp-assets-base
 
 `ldap`
 
@@ -25,7 +72,7 @@ Released TBD
 
 `saml2`
 
-* Fixed a static call to a non-static function that caused a broken artifact binding (#332)
+* Fixed a static call to a non-static function that caused a broken artifact binding (v4.6.8)
 
 ## Version 2.0.3
 
