@@ -57,13 +57,13 @@ class SpTester extends SP
     /**
      * override the method that sends the request to avoid sending anything
      */
-    public function sendSAML2LogoutRequest(Binding $binding, LogoutRequest $lr): void
+    public function sendSAML2LogoutRequest(Binding $binding, LogoutRequest $ar): void
     {
         // Exit test. Continuing would mean running into a assert(FALSE)
         throw new ExitTestException(
             [
                 'binding' => $binding,
-                'lr'      => $lr,
+                'ar'      => $ar,
             ]
         );
     }

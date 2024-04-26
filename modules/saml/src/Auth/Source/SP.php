@@ -675,9 +675,9 @@ class SP extends \SimpleSAML\Auth\Source
      * @param \SAML2\Binding $binding  The binding.
      * @param \SAML2\LogoutRequest  $ar  The logout request.
      */
-    public function sendSAML2LogoutRequest(Binding $binding, LogoutRequest $lr): void
+    public function sendSAML2LogoutRequest(Binding $binding, LogoutRequest $ar): void
     {
-        $binding->send($lr);
+        $binding->send($ar);
         Assert::true(false);
     }
 

@@ -161,7 +161,7 @@ class SPTest extends ClearStateTestCase
             $this->assertTrue(false, 'Expected ExitTestException');
         } catch (ExitTestException $e) {
             $r = $e->getTestResult();
-            $lr = $r['lr'];
+            $lr = $r['ar'];
         }
         return $lr;
     }
