@@ -40,7 +40,7 @@ class Configuration implements Utils\ClearableState
     /**
      * The release version of this package
      */
-    public const VERSION = '2.2.1';
+    public const VERSION = '2.2.2';
 
     /**
      * A default value which means that the given option is required.
@@ -61,6 +61,7 @@ class Configuration implements Utils\ClearableState
             "style-src 'self'; " .
             "font-src 'self'; " .
             "connect-src 'self'; " .
+            "media-src data:;" .
             "img-src 'self' data:; " .
             "base-uri 'none'",
         'X-Frame-Options' => 'SAMEORIGIN',

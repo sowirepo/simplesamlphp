@@ -5,9 +5,53 @@
 This document lists the changes between versions of SimpleSAMLphp.
 See the upgrade notes for specific information about upgrading.
 
-## Version 2.2.2
+## Version 2.2.3
 
 Released TBD
+
+`adfs`
+
+* Fixed metadata download to become a proper xml-file
+* Prevent metadata-download from ever being cached
+
+## Version 2.2.2
+
+:warning: IMPORTANT NOTE :warning:
+
+Due to a mistake, this bugfix-release can turn out to become a backwards-incompatibility for those who override the loginuserpass.twig in their custom theme.
+Please update your theme to reflect the changes in [this commit](https://github.com/simplesamlphp/simplesamlphp/pull/2022/commits/691199e9b963a2861d731e6583555c7a8df39992) before updating.
+
+Released 30-04-2024
+
+* Fix regression when setting the host-variable in `saml20-idp-hosted` (was #1922)
+* Fix posting the form to the incorrect endpoint when using an authsource based on UserPassOrgBase (#2022)
+* Fix RequestedAuthnContextSelector for case with multiple RACs in request
+* Add xml opening-tag to SP-metadata for consistency with IdP-metadata (#2048)
+* Fixed a PHP 8.3 compliance issue in the logout handler (#2047)
+* Improve parsing of base64-encoded strings
+* Autofill username when Entra ID hints it in the HTTP parameters
+
+`admin`
+
+* Set custom security header to properly display phpinfo-page
+* Hide file-upload button for metadata-converter if uploads are disabled at PHP-level
+
+`exampleauth`
+
+* Fix controller for External-authsource
+
+`ldap`
+
+* Fix exception being thrown when password is empty
+
+`saml2 library`
+
+Fixed a bug where base64 encoded strings were not decoded using the `strict` flag, leading
+to an incorrect error message.
+
+`sqlauth`
+
+* Add username_regex option (simplesamlphp/simplesamlphp-module-sqlauth#11) (v1.3.0)
 
 ## Version 2.2.1
 
@@ -15,6 +59,10 @@ Released 2014-03-17
 
 * Fix regression in bin/initMDSPdo.php (was #1892)
 * Fix regression in translations, causing a fallback to English (#2009 + #2010)
+
+`sqlauth`
+
+* Add multi-query support (simplesamlphp/simplesamlphp-module-sqlauth#9) (v1.2.0)
 
 ## Version 2.2.0
 
