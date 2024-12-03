@@ -41,9 +41,10 @@ class LogoutTest extends ClearStateTestCase
                 'baseurlpath' => 'https://example.org/simplesaml',
                 'module.enable' => ['exampleauth' => true],
                 'enable.saml20-idp' => true,
+                'trusted.url.domains' => [],
             ],
             '[ARRAY]',
-            'simplesaml'
+            'simplesaml',
         );
         Configuration::setPreLoadedConfig($this->config, 'config.php');
     }

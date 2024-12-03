@@ -49,7 +49,7 @@ class Login
      * @throws \Exception
      */
     public function __construct(
-        protected Configuration $config
+        protected Configuration $config,
     ) {
     }
 
@@ -107,7 +107,7 @@ class Login
         $source = $this->authSource::getById($state[UserPassBase::AUTHID]);
         if ($source === null) {
             throw new BuiltinException(
-                'Could not find authentication source with id ' . $state[UserPassBase::AUTHID]
+                'Could not find authentication source with id ' . $state[UserPassBase::AUTHID],
             );
         }
 
@@ -220,7 +220,7 @@ class Login
                     $errorParams = $e->getParameters();
                     $state['error'] = [
                         'code' => $errorCode,
-                        'params' => $errorParams
+                        'params' => $errorParams,
                     ];
                     $authStateId = Auth\State::saveState($state, $source::STAGEID);
                 }
@@ -234,7 +234,7 @@ class Login
         $t = new Template($this->config, 'core:loginuserpass.twig');
 
         if ($source instanceof UserPassOrgBase) {
-            $t->data['username'] = $username;
+            $t->data['username'] = $state['core:username'] ?? '';
             $t->data['forceUsername'] = false;
             $t->data['rememberUsernameEnabled'] = $source->getRememberUsernameEnabled();
             $t->data['rememberUsernameChecked'] = $source->getRememberUsernameChecked();
@@ -248,7 +248,7 @@ class Login
             $t->data['rememberMeEnabled'] = $source->isRememberMeEnabled();
             $t->data['rememberMeChecked'] = $source->isRememberMeChecked();
         } else {
-            $t->data['username'] = $username;
+            $t->data['username'] = $state['core:username'] ?? '';
             $t->data['forceUsername'] = false;
             $t->data['rememberUsernameEnabled'] = $source->getRememberUsernameEnabled();
             $t->data['rememberUsernameChecked'] = $source->getRememberUsernameChecked();
@@ -322,7 +322,7 @@ class Login
         $source = $this->authSource::getById($state[UserPassOrgBase::AUTHID]);
         if ($source === null) {
             throw new BuiltinException(
-                'Could not find authentication source with id ' . $state[UserPassOrgBase::AUTHID]
+                'Could not find authentication source with id ' . $state[UserPassOrgBase::AUTHID],
             );
         }
 
@@ -351,7 +351,7 @@ class Login
         ?bool $secure = null,
         bool $httponly = true,
         bool $raw = false,
-        ?string $sameSite = 'none'
+        ?string $sameSite = 'none',
     ): Cookie {
         return new Cookie($name, $value, $expire, $path, $domain, $secure, $httponly, $raw, $sameSite);
     }
@@ -376,8 +376,6 @@ class Login
             && $request->cookies->has($source->getAuthId() . '-username')
         ) {
             $username = $request->cookies->get($source->getAuthId() . '-username');
-        } elseif (isset($state['core:username'])) {
-            $username = strval($state['core:username']);
         }
 
         return $username;

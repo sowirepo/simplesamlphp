@@ -39,10 +39,10 @@ class CronTest extends TestCase
         $this->config = Configuration::loadFromArray(
             [
                 'module.enable' => ['cron' => true],
-                'secretsalt' => 'defaultsecretsalt'
+                'secretsalt' => 'defaultsecretsalt',
             ],
             '[ARRAY]',
-            'simplesaml'
+            'simplesaml',
         );
 
         $this->session = Session::getSessionFromRequest();
@@ -63,10 +63,10 @@ class CronTest extends TestCase
                     'sendemail' => false,
                 ],
                 '[ARRAY]',
-                'simplesaml'
+                'simplesaml',
             ),
             'module_cron.php',
-            'simplesaml'
+            'simplesaml',
         );
     }
 

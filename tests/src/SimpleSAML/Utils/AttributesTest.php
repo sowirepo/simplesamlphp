@@ -44,7 +44,7 @@ class AttributesTest extends TestCase
         $expected = 'attribute';
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'The attributes array is not normalized, values should be arrays.'
+            'The attributes array is not normalized, values should be arrays.',
         );
         $this->attrUtils->getExpectedAttribute($attributes, $expected);
     }
@@ -97,7 +97,7 @@ class AttributesTest extends TestCase
         $expected = 'attribute';
         $this->expectException(Error\Exception::class);
         $this->expectExceptionMessage(
-            'More than one value found for the attribute, multiple values not allowed.'
+            'More than one value found for the attribute, multiple values not allowed.',
         );
         $this->attrUtils->getExpectedAttribute($attributes, $expected);
     }
@@ -154,17 +154,17 @@ class AttributesTest extends TestCase
         $attributes = [
             'key1' => 'value1',
             'key2' => ['value2', 'value3'],
-            'key3' => 'value1'
+            'key3' => 'value1',
         ];
         $expected = [
             'key1' => ['value1'],
             'key2' => ['value2', 'value3'],
-            'key3' => ['value1']
+            'key3' => ['value1'],
         ];
         $this->assertEquals(
             $expected,
             $this->attrUtils->normalizeAttributesArray($attributes),
-            'Attribute array normalization failed'
+            'Attribute array normalization failed',
         );
     }
 
@@ -177,13 +177,13 @@ class AttributesTest extends TestCase
         // test for only the name
         $this->assertEquals(
             ['default', 'name'],
-            $this->attrUtils->getAttributeNamespace('name', 'default')
+            $this->attrUtils->getAttributeNamespace('name', 'default'),
         );
 
         // test for a given namespace and multiple '/'
         $this->assertEquals(
             ['some/namespace', 'name'],
-            $this->attrUtils->getAttributeNamespace('some/namespace/name', 'default')
+            $this->attrUtils->getAttributeNamespace('some/namespace/name', 'default'),
         );
     }
 }

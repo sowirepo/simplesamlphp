@@ -44,18 +44,18 @@ class ModuleTest extends TestCase
     public function testGetModuleURL(): void
     {
         Configuration::loadFromArray([
-            'baseurlpath' => 'https://example.com/simplesaml/'
+            'baseurlpath' => 'https://example.com/simplesaml/',
         ], '', 'simplesaml');
         $this->assertEquals(
             'https://example.com/simplesaml/module.php/module/script.php',
-            Module::getModuleURL('module/script.php')
+            Module::getModuleURL('module/script.php'),
         );
         $this->assertEquals(
             'https://example.com/simplesaml/module.php/module/script.php?param1=value1&param2=value2',
             Module::getModuleURL('module/script.php', [
                 'param1' => 'value1',
                 'param2' => 'value2',
-            ])
+            ]),
         );
     }
 
@@ -103,14 +103,14 @@ class ModuleTest extends TestCase
         // test for the $type parameter correctly translated into a path
         $this->assertEquals(
             'SimpleSAML\Module\core\Auth\Process\PHP',
-            Module::resolveClass('core:PHP', 'Auth\Process')
+            Module::resolveClass('core:PHP', 'Auth\Process'),
         );
 
         // test for valid subclasses
         $this->assertEquals('SimpleSAML\Module\core\Auth\Process\PHP', Module::resolveClass(
             'core:PHP',
             'Auth\Process',
-            '\SimpleSAML\Auth\ProcessingFilter'
+            '\SimpleSAML\Auth\ProcessingFilter',
         ));
     }
 

@@ -42,9 +42,10 @@ class LoginTest extends ClearStateTestCase
             [
                 'baseurlpath' => 'https://example.org/simplesaml',
                 'module.enable' => ['exampleauth' => true],
+                'trusted.url.domains' => [],
             ],
             '[ARRAY]',
-            'simplesaml'
+            'simplesaml',
         );
 
         Configuration::setPreLoadedConfig($this->config, 'config.php');

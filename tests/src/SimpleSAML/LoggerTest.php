@@ -26,7 +26,7 @@ class LoggerTest extends TestCase
         $this->originalLogger = Logger::getLoggingHandler();
         $config = [
             'logging.handler' => $handler,
-            'logging.level' => Logger::DEBUG
+            'logging.level' => Logger::DEBUG,
         ];
 
         // testing static methods is slightly painful
@@ -91,7 +91,7 @@ class LoggerTest extends TestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
-            "Invalid value for the 'logging.handler' configuration option. Unknown handler 'nohandler'."
+            "Invalid value for the 'logging.handler' configuration option. Unknown handler 'nohandler'.",
         );
 
         Logger::critical('should throw exception');

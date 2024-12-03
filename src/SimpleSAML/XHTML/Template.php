@@ -130,7 +130,7 @@ class Template extends Response
      */
     public function __construct(
         private Configuration $configuration,
-        private string $template
+        private string $template,
     ) {
         // TODO: do not remove the slash from the beginning, change the templates instead!
         $this->data['baseurlpath'] = ltrim($configuration->getBasePath(), '/');
@@ -140,7 +140,7 @@ class Template extends Response
 
         // parse config to find theme and module theme is in, if any
         list($this->theme['module'], $this->theme['name']) = $this->findModuleAndTemplateName(
-            $this->configuration->getOptionalString('theme.use', 'default')
+            $this->configuration->getOptionalString('theme.use', 'default'),
         );
 
         // initialize internationalization system
@@ -159,7 +159,7 @@ class Template extends Response
             } else {
                 throw new Error\ConfigurationError(
                     'Invalid controller was configured in `theme.controller`. ' .
-                    ' Make sure the class exists and implements the TemplateControllerInterface.'
+                    ' Make sure the class exists and implements the TemplateControllerInterface.',
                 );
             }
         }
@@ -260,7 +260,7 @@ class Template extends Response
         if ($this->theme['module']) {
             try {
                 $templateDirs[] = [
-                    $this->theme['module'] => TemplateLoader::getModuleTemplateDir($this->theme['module'])
+                    $this->theme['module'] => TemplateLoader::getModuleTemplateDir($this->theme['module']),
                 ];
             } catch (InvalidArgumentException $e) {
                 // either the module is not enabled or it has no "templates" directory, ignore
@@ -271,7 +271,7 @@ class Template extends Response
 
         // default, themeless templates are checked last
         $templateDirs[] = [
-            FilesystemLoader::MAIN_NAMESPACE => $this->configuration->resolvePath('templates')
+            FilesystemLoader::MAIN_NAMESPACE => $this->configuration->resolvePath('templates'),
         ];
         foreach ($templateDirs as $entry) {
             $loader->addPath($entry[key($entry)], key($entry));
@@ -344,15 +344,15 @@ class Template extends Response
             new TwigFilter(
                 'translateFromArray',
                 [Translate::class, 'translateFromArray'],
-                ['needs_context' => true]
-            )
+                ['needs_context' => true],
+            ),
         );
         // add a filter for preferred entity name
         $twig->addFilter(
             new TwigFilter(
                 'entityDisplayName',
                 [$this, 'getEntityDisplayName'],
-            )
+            ),
         );
 
         // add an asset() function
@@ -472,7 +472,7 @@ class Template extends Response
                     $httpUtils = new Utils\HTTP();
                     $url = $httpUtils->addURLParameters(
                         '',
-                        [$parameterName => $lang]
+                        [$parameterName => $lang],
                     );
                 }
                 $langmap[$lang] = [

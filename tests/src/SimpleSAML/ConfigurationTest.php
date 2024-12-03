@@ -795,7 +795,7 @@ class ConfigurationTest extends ClearStateTestCase
             // if we specify the binding, we should get it back
             [
                 'Location' => 'https://example.com/endpoint.php',
-                'Binding' => Constants::BINDING_HTTP_POST
+                'Binding' => Constants::BINDING_HTTP_POST,
             ],
             // if we specify ResponseLocation, we should get it back too
             [
@@ -822,7 +822,7 @@ class ConfigurationTest extends ClearStateTestCase
                 'isDefault' => false,
                 'Location' => 'https://www2.example.com/endpoint.php',
                 'Binding' => Constants::BINDING_HTTP_POST,
-            ]
+            ],
         ];
 
         $a = [
@@ -849,7 +849,7 @@ class ConfigurationTest extends ClearStateTestCase
             $c = Configuration::loadFromArray($a);
             $this->assertEquals($acs_expected_eps[$i], $c->getDefaultEndpoint(
                 'AssertionConsumerService',
-                $valid_bindings
+                $valid_bindings,
             ));
         }
 
@@ -860,14 +860,14 @@ class ConfigurationTest extends ClearStateTestCase
                 'Location' => 'https://example.com/ars',
                 'Binding' => Constants::BINDING_SOAP,
             ],
-            $c->getDefaultEndpoint('ArtifactResolutionService')
+            $c->getDefaultEndpoint('ArtifactResolutionService'),
         );
         $this->assertEquals(
             [
                 'Location' => 'https://example.com/slo',
                 'Binding' => Constants::BINDING_HTTP_REDIRECT,
             ],
-            $c->getDefaultEndpoint('SingleLogoutService')
+            $c->getDefaultEndpoint('SingleLogoutService'),
         );
 
         // test for no valid endpoints specified
@@ -885,7 +885,7 @@ class ConfigurationTest extends ClearStateTestCase
         } catch (Exception $e) {
             $this->assertEquals(
                 '[ARRAY][\'SingleLogoutService\']:Could not find a supported SingleLogoutService ' . 'endpoint.',
-                $e->getMessage()
+                $e->getMessage(),
             );
         }
         $a['metadata-set'] = 'foo';
@@ -915,7 +915,7 @@ class ConfigurationTest extends ClearStateTestCase
                 'Location' => 'https://example.com/endpoint.php',
                 'Binding' => Constants::BINDING_HTTP_REDIRECT,
                 'ResponseLocation' => 'https://example.com/response.php',
-            ]
+            ],
         ];
         $this->assertEquals($e, $c->getEndpoints('SingleSignOnService'));
 
@@ -933,7 +933,7 @@ class ConfigurationTest extends ClearStateTestCase
             10,
             // invalid definition of endpoint inside the endpoints array
             [
-                1234
+                1234,
             ],
             // missing location
             [
@@ -945,7 +945,7 @@ class ConfigurationTest extends ClearStateTestCase
             [
                 [
                     'Location' => 1234,
-                ]
+                ],
             ],
             // missing binding
             [
@@ -1078,12 +1078,59 @@ class ConfigurationTest extends ClearStateTestCase
     public function testGetConfigNonexistentFilePreload(): void
     {
         $c = Configuration::loadFromArray([
-            'key' => 'value'
+            'key' => 'value',
         ]);
         $virtualFile = 'nonexistent-preload.php';
         Configuration::setPreLoadedConfig($c, $virtualFile);
         $nc = Configuration::getConfig($virtualFile);
         $this->assertEquals('value', $nc->getOptionalValue('key', null));
+    }
+
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testCanLoadDefinedConfigFromFile(): void
+    {
+        $testConfigDir = dirname(__FILE__, 3) . DIRECTORY_SEPARATOR . 'config';
+        putenv('SIMPLESAMLPHP_CONFIG_DIR=' .  $testConfigDir);
+
+        $config = Configuration::getConfig('defined_config.php');
+        $this->assertArrayHasKey('defined', $config->toArray());
+    }
+
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testCanLoadReturnedConfigFromFile(): void
+    {
+        $testConfigDir = dirname(__FILE__, 3) . DIRECTORY_SEPARATOR . 'config';
+        putenv('SIMPLESAMLPHP_CONFIG_DIR=' .  $testConfigDir);
+
+        $config = Configuration::getConfig('returned_config.php');
+        $this->assertArrayHasKey('returned', $config->toArray());
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testLoadFromFileConfigurationError(): void
+    {
+        $virtualFile = 'nonexistent-preload.php';
+        $tmpfname = tempnam('/tmp', $virtualFile);
+
+        $handle = fopen($tmpfname, 'wb');
+        fwrite($handle, 'writing to tempfile');
+        fclose($handle);
+
+        $this->expectException(Error\ConfigurationError::class);
+        Configuration::getConfig($tmpfname);
+
+        unlink($tmpfname);
     }
 
 
@@ -1095,7 +1142,7 @@ class ConfigurationTest extends ClearStateTestCase
     public function testLoadInstanceFromArray(): void
     {
         $c = [
-            'key' => 'value'
+            'key' => 'value',
         ];
         // test loading a custom instance
         Configuration::loadFromArray($c, '', 'dummy');

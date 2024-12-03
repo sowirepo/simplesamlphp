@@ -83,10 +83,10 @@ PHP;
         $this->config = Configuration::loadFromArray(
             [
                 'module.enable' => [],
-                'secretsalt' => 'SUPER_SECRET_SALT'
+                'secretsalt' => 'SUPER_SECRET_SALT',
             ],
             '[ARRAY]',
-            'simplesaml'
+            'simplesaml',
         );
 
         $this->root = vfsStream::setup(
@@ -94,7 +94,7 @@ PHP;
             null,
             [
                 self::DEFAULTCERTDIR => [],
-            ]
+            ],
         );
         $this->root_directory = vfsStream::url(self::ROOTDIRNAME);
         $this->certdir = $this->root_directory . DIRECTORY_SEPARATOR . self::DEFAULTCERTDIR;
@@ -192,7 +192,7 @@ CIPHER;
     {
         $this->assertEquals(
             trim($this->pem),
-            trim($this->cryptoUtils->der2pem($this->cryptoUtils->pem2der($this->pem)))
+            trim($this->cryptoUtils->der2pem($this->cryptoUtils->pem2der($this->pem))),
         );
     }
 
@@ -344,7 +344,7 @@ CIPHER;
                 'privatekey' => $filename,
                 'privatekey_pass' => $password,
             ],
-            'test'
+            'test',
         );
         $full_path = true;
 
@@ -370,7 +370,7 @@ CIPHER;
                 $prefix . 'privatekey' => $filename,
                 $prefix . 'privatekey_pass' => $password,
             ],
-            'test'
+            'test',
         );
         $full_path = true;
 
@@ -418,11 +418,11 @@ CIPHER;
                     [
                         'X509Certificate' => '',
                         'type' => 'NotX509Certificate',
-                        'signing' => true
+                        'signing' => true,
                     ],
                 ],
             ],
-            'test'
+            'test',
         );
 
         $res = $this->cryptoUtils->loadPublicKey($config);
@@ -441,11 +441,11 @@ CIPHER;
                     [
                         'X509Certificate' => '',
                         'type' => 'X509Certificate',
-                        'signing' => false
+                        'signing' => false,
                     ],
                 ],
             ],
-            'test'
+            'test',
         );
 
         $res = $this->cryptoUtils->loadPublicKey($config);
@@ -465,11 +465,11 @@ CIPHER;
                     [
                         'X509Certificate' => $x509certificate,
                         'type' => 'X509Certificate',
-                        'signing' => true
+                        'signing' => true,
                     ],
                 ],
             ],
-            'test'
+            'test',
         );
 
         /** @var array $pubkey */

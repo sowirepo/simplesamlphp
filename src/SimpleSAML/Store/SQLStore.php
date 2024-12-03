@@ -89,7 +89,7 @@ class SQLStore implements StoreInterface
         } catch (PDOException $e) {
             $this->pdo->exec(
                 'CREATE TABLE ' . $this->prefix .
-                '_tableVersion (_name VARCHAR(30) PRIMARY KEY NOT NULL, _version INTEGER NOT NULL)'
+                '_tableVersion (_name VARCHAR(30) PRIMARY KEY NOT NULL, _version INTEGER NOT NULL)',
             );
             $this->setTableVersion('tableVersion', 1);
             return;
@@ -110,7 +110,7 @@ class SQLStore implements StoreInterface
                     $update = [
                         'ALTER TABLE ' . $this->prefix . '_tableVersion DROP CONSTRAINT IF EXISTS ' .
                           $this->prefix . '_tableVersion__name_key',
-                        'ALTER TABLE ' . $this->prefix . '_tableVersion ADD PRIMARY KEY (_name)'
+                        'ALTER TABLE ' . $this->prefix . '_tableVersion ADD PRIMARY KEY (_name)',
                     ];
                     break;
                 case 'sqlsrv':
@@ -122,7 +122,7 @@ class SQLStore implements StoreInterface
                     $update = [
                         'ALTER TABLE ' . $this->prefix . '_tableVersion DROP INDEX IF EXISTS SELECT CONSTRAINT_NAME ' .
                           'FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE TABLE_NAME=' . $this->prefix . '_tableVersion',
-                        'ALTER TABLE ' . $this->prefix . '_tableVersion ADD CONSTRAINT _name PRIMARY KEY CLUSTERED (_name)'
+                        'ALTER TABLE ' . $this->prefix . '_tableVersion ADD CONSTRAINT _name PRIMARY KEY CLUSTERED (_name)',
                     ];
                     break;
                 case 'sqlite':
@@ -140,21 +140,21 @@ class SQLStore implements StoreInterface
                           $this->prefix . '_tableVersion',
                         'DROP TABLE ' . $this->prefix . '_tableVersion',
                         'ALTER TABLE ' . $this->prefix . '_tableVersion_new RENAME TO ' .
-                          $this->prefix . '_tableVersion'
+                          $this->prefix . '_tableVersion',
                     ];
                     break;
                 case 'mysql':
                     // Drop old index and add primary key
                     $update = [
                         'ALTER TABLE ' . $this->prefix . '_tableVersion DROP INDEX _name',
-                        'ALTER TABLE ' . $this->prefix . '_tableVersion ADD PRIMARY KEY (_name)'
+                        'ALTER TABLE ' . $this->prefix . '_tableVersion ADD PRIMARY KEY (_name)',
                     ];
                     break;
                 default:
                     // Drop old index and add primary key
                     $update = [
                         'ALTER TABLE ' . $this->prefix . '_tableVersion DROP INDEX _name',
-                        'ALTER TABLE ' . $this->prefix . '_tableVersion ADD PRIMARY KEY (_name)'
+                        'ALTER TABLE ' . $this->prefix . '_tableVersion ADD PRIMARY KEY (_name)',
                     ];
                     break;
             }
@@ -183,7 +183,7 @@ class SQLStore implements StoreInterface
         } elseif ($tableVer < 2 && $tableVer > 0) {
             throw new Exception(
                 'No upgrade path available. Please migrate to the latest 1.16+ '
-                . 'version of SimpleSAMLphp first before upgrading to 2.x.'
+                . 'version of SimpleSAMLphp first before upgrading to 2.x.',
             );
         }
 
@@ -242,7 +242,7 @@ class SQLStore implements StoreInterface
         $this->insertOrUpdate(
             $this->prefix . '_tableVersion',
             ['_name'],
-            ['_name' => $name, '_version' => $version]
+            ['_name' => $name, '_version' => $version],
         );
         $this->tableVersions[$name] = $version;
     }

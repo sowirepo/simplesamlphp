@@ -102,7 +102,7 @@ class Module
      */
     public static array $core_modules = [
         'core' => true,
-        'saml' => true
+        'saml' => true,
     ];
 
     /**
@@ -217,7 +217,7 @@ class Module
             $request->files->all(),
             function ($val) {
                 return !is_null($val);
-            }
+            },
         );
         $request->initialize(
             $request->query->all(),
@@ -226,7 +226,7 @@ class Module
             $request->cookies->all(),
             $request_files,
             $request->server->all(),
-            $request->getContent()
+            $request->getContent(),
         );
 
         try {
@@ -335,7 +335,7 @@ class Module
             // "public" allows response caching even if the request was authenticated,
             // which is exactly what we want for static resources
             'public' => true,
-            'max_age' => strval($cacheConfig->getOptionalInteger('max_age', 86400))
+            'max_age' => strval($cacheConfig->getOptionalInteger('max_age', 86400)),
         ]);
         $response->setAutoLastModified();
         if ($cacheConfig->getOptionalBoolean('etag', false)) {
@@ -458,7 +458,7 @@ class Module
         if ($subclass !== null && !is_subclass_of($className, $subclass)) {
             throw new Exception(
                 'Could not resolve \'' . $id . '\': The class \'' . $className
-                . '\' isn\'t a subclass of \'' . $subclass . '\'.'
+                . '\' isn\'t a subclass of \'' . $subclass . '\'.',
             );
         }
 
