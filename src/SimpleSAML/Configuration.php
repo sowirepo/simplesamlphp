@@ -39,7 +39,7 @@ class Configuration implements Utils\ClearableState
     /**
      * The release version of this package
      */
-    public const VERSION = '2.2.4';
+    public const VERSION = '2.2.5';
 
     /**
      * A default value which means that the given option is required.
@@ -1313,7 +1313,7 @@ class Configuration implements Utils\ClearableState
      */
     public function getDefaultEndpoint(
         string $endpointType,
-        array $bindings = null,
+        ?array $bindings = null,
         mixed $default = self::REQUIRED_OPTION,
     ): mixed {
         $endpoints = $this->getEndpoints($endpointType);

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e67a990918278b5e42d3a7a038861eac",
+    "content-hash": "6258efd9992f63ea2be51a85e676fc03",
     "packages": [
         {
             "name": "gettext/gettext",
@@ -849,16 +849,16 @@
         },
         {
             "name": "simplesamlphp/saml2",
-            "version": "v4.16.14",
+            "version": "v4.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simplesamlphp/saml2.git",
-                "reference": "fe6c7bdda5e166e326d19d78f230d959ab51d01d"
+                "reference": "78b1c6735db8e2f78dcea9bcac0317ad2b200d72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simplesamlphp/saml2/zipball/fe6c7bdda5e166e326d19d78f230d959ab51d01d",
-                "reference": "fe6c7bdda5e166e326d19d78f230d959ab51d01d",
+                "url": "https://api.github.com/repos/simplesamlphp/saml2/zipball/78b1c6735db8e2f78dcea9bcac0317ad2b200d72",
+                "reference": "78b1c6735db8e2f78dcea9bcac0317ad2b200d72",
                 "shasum": ""
             },
             "require": {
@@ -904,22 +904,22 @@
             "description": "SAML2 PHP library from SimpleSAMLphp",
             "support": {
                 "issues": "https://github.com/simplesamlphp/saml2/issues",
-                "source": "https://github.com/simplesamlphp/saml2/tree/v4.16.14"
+                "source": "https://github.com/simplesamlphp/saml2/tree/v4.18.1"
             },
-            "time": "2024-12-01T22:26:30+00:00"
+            "time": "2025-03-16T11:37:44+00:00"
         },
         {
             "name": "simplesamlphp/simplesamlphp-assets-base",
-            "version": "v2.2.0",
+            "version": "v2.2.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simplesamlphp/simplesamlphp-assets-base.git",
-                "reference": "3a6126eef1897aa3fa62355c9a4f095496c9ed24"
+                "reference": "b5d9d2ec021fd4646406f81b7f453f1817bb15cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simplesamlphp/simplesamlphp-assets-base/zipball/3a6126eef1897aa3fa62355c9a4f095496c9ed24",
-                "reference": "3a6126eef1897aa3fa62355c9a4f095496c9ed24",
+                "url": "https://api.github.com/repos/simplesamlphp/simplesamlphp-assets-base/zipball/b5d9d2ec021fd4646406f81b7f453f1817bb15cc",
+                "reference": "b5d9d2ec021fd4646406f81b7f453f1817bb15cc",
                 "shasum": ""
             },
             "require": {
@@ -940,9 +940,9 @@
             "description": "Assets for the SimpleSAMLphp main repository",
             "support": {
                 "issues": "https://github.com/simplesamlphp/simplesamlphp-assets-base/issues",
-                "source": "https://github.com/simplesamlphp/simplesamlphp-assets-base/tree/v2.2.0"
+                "source": "https://github.com/simplesamlphp/simplesamlphp-assets-base/tree/v2.2.16"
             },
-            "time": "2024-04-09T20:35:07+00:00"
+            "time": "2025-03-02T17:51:09+00:00"
         },
         {
             "name": "symfony/cache",
@@ -6329,7 +6329,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
